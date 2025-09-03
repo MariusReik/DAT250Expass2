@@ -2,15 +2,15 @@ package no.hvl.pollapp.domain;
 
 import java.time.Instant;
 
-    public class Vote {
+    public class vote {
         private Instant publishedAt;
         private User voter;
         private VoteOption voteOption;
 
-        public Vote() {
+        public vote() {
         }
 
-        public Vote(Instant publishedAt, User voter, VoteOption voteOption) {
+        public vote(Instant publishedAt, User voter, VoteOption voteOption) {
             this.publishedAt = publishedAt;
             this.voter = voter;
             this.voteOption = voteOption;
@@ -40,5 +40,4 @@ import java.time.Instant;
         public void setVoteOption(VoteOption voteOption) {
             this.voteOption = voteOption;
         }
-    }
     }

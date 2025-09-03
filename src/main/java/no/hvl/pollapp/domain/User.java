@@ -1,7 +1,5 @@
 package no.hvl.pollapp.domain;
 
-import com.example.demo.domain.Poll;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +7,7 @@ public class User {
     private String username;
     private String email;
     private List<Poll> createdPolls;
-    private List<Vote> votes;
+    private List<vote> votes;
 
     public User() {
         this.createdPolls = new ArrayList<>();
@@ -38,3 +36,4 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+}
