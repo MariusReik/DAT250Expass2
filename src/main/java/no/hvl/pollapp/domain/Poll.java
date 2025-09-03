@@ -8,18 +8,18 @@ public class Poll {
     private String question;
     private Instant publishedAt;
     private Instant validUntil;
-    private User creator;
-    private List<VoteOption> voteOptions;
+    private String creatorUsername;
+    private List<VoteOption> voteOptions = new ArrayList<>();
 
     public Poll() {
-        this.voteOptions = new ArrayList<>();
+        this.publishedAt = Instant.now();
     }
 
-    public Poll(String question, Instant publishedAt, Instant validUntil) {
+    public Poll(String question, Instant validUntil, String creatorUsername) {
         this();
         this.question = question;
-        this.publishedAt = publishedAt;
         this.validUntil = validUntil;
+        this.creatorUsername = creatorUsername;
     }
 
     // Getters and Setters
@@ -47,12 +47,12 @@ public class Poll {
         this.validUntil = validUntil;
     }
 
-    public User getCreator() {
-        return creator;
+    public String getCreatorUsername() {
+        return creatorUsername;
     }
 
-    public void setCreator(User creator) {
-        this.creator = creator;
+    public void setCreatorUsername(String creatorUsername) {
+        this.creatorUsername = creatorUsername;
     }
 
     public List<VoteOption> getVoteOptions() {
