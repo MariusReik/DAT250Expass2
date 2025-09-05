@@ -1,5 +1,6 @@
 package no.hvl.pollapp.domain;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,8 @@ public class Poll {
     private Long id;
     private String question;
     private String creatorUsername;
-    private List<String> voteOptions = new ArrayList<>();
+    private LocalDateTime validUntil;
+    private List<VoteOption> voteOptions = new ArrayList<>();
 
     public Poll() {}
 
@@ -35,11 +37,20 @@ public class Poll {
         this.creatorUsername = creatorUsername;
     }
 
-    public List<String> getVoteOptions() {
+    public LocalDateTime getValidUntil() {
+        return validUntil;
+    }
+
+    public void setValidUntil(LocalDateTime validUntil) {
+        this.validUntil = validUntil;
+    }
+
+    public List<VoteOption> getVoteOptions() {
         return voteOptions;
     }
 
-    public void setVoteOptions(List<String> voteOptions) {
+    public void setVoteOptions(List<VoteOption> voteOptions) {
         this.voteOptions = voteOptions;
     }
 }
+

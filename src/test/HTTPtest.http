@@ -1,4 +1,5 @@
-### Create User 1
+
+### 2. Create first user
 POST http://localhost:8080/users
 Content-Type: application/json
 
@@ -7,10 +8,10 @@ Content-Type: application/json
   "email": "lyder@example.com"
 }
 
-### List all users (should show Lyder)
+### 3. List all users (should show 1)
 GET http://localhost:8080/users
 
-### Create User 2
+### 4. Create second user
 POST http://localhost:8080/users
 Content-Type: application/json
 
@@ -19,10 +20,10 @@ Content-Type: application/json
   "email": "marius@example.com"
 }
 
-### List all users (should show Lyder and Marius)
+### 5. List all users again (should show 2)
 GET http://localhost:8080/users
 
-### User 1 creates a poll
+### 6. User 1 creates a new poll
 POST http://localhost:8080/polls
 Content-Type: application/json
 
@@ -36,32 +37,38 @@ Content-Type: application/json
   ]
 }
 
-### List all polls
+> {%
+    client.global.set("pollId", response.body.id);
+    client.global.set("option1Id", response.body.voteOptions[0].id);
+    client.global.set("option2Id", response.body.voteOptions[1].id);
+%}
+
+### 7. List polls (should show the new poll)
 GET http://localhost:8080/polls
 
-### User 2 votes on the poll (assuming poll ID is "poll1" and option ID is 1)
-POST http://localhost:8080/polls/poll1/votes
+### 8. User 2 votes on the poll
+POST http://localhost:8080/polls/{{pollId}}/votes
 Content-Type: application/json
 
 {
   "username": "marius",
-  "voteOptionId": 1
+  "voteOptionId": {{option1Id}}
 }
 
-### User 2 changes vote to option ID 2
-PUT http://localhost:8080/polls/poll1/votes
+### 9. User 2 changes his vote
+PUT http://localhost:8080/polls/{{pollId}}/votes
 Content-Type: application/json
 
 {
   "username": "marius",
-  "voteOptionId": 2
+  "voteOptionId": {{option2Id}}
 }
 
-### List votes for poll1
-GET http://localhost:8080/polls/poll1/votes
+### 10. List votes (should show most recent vote for User 2)
+GET http://localhost:8080/polls/{{pollId}}/votes
 
-### Delete the poll
-DELETE http://localhost:8080/polls/poll1
+### 11. Delete the one poll
+DELETE http://localhost:8080/polls/{{pollId}}
 
-### List votes (should be empty)
+### 12. List votes (should be empty)
 GET http://localhost:8080/votes

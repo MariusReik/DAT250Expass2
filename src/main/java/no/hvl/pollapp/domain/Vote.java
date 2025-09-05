@@ -4,7 +4,7 @@ public class Vote {
     private Long id;
     private String username;
     private Long pollId;
-    private int choiceIndex;
+    private Long voteOptionId;
 
     public Vote() {}
 
@@ -32,11 +32,11 @@ public class Vote {
         this.pollId = pollId;
     }
 
-    public int getChoiceIndex() {
-        return choiceIndex;
+    public Long getVoteOptionId() {
+        return voteOptionId;
     }
 
-    public void setChoiceIndex(int choiceIndex) {
-        this.choiceIndex = choiceIndex;
+    public void setVoteOptionId(Long voteOptionId) {
+        this.voteOptionId = voteOptionId;
     }
 }
