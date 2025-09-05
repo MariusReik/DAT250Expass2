@@ -1,0 +1,67 @@
+### Create User 1
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "username": "lyder",
+  "email": "lyder@example.com"
+}
+
+### List all users (should show Lyder)
+GET http://localhost:8080/users
+
+### Create User 2
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "username": "marius",
+  "email": "marius@example.com"
+}
+
+### List all users (should show Lyder and Marius)
+GET http://localhost:8080/users
+
+### User 1 creates a poll
+POST http://localhost:8080/polls
+Content-Type: application/json
+
+{
+  "question": "Cars 1 or 2",
+  "validUntil": "2025-12-31T23:59:59Z",
+  "creatorUsername": "lyder",
+  "voteOptions": [
+    { "caption": "1 for sure", "presentationOrder": 1 },
+    { "caption": "2, not even a question", "presentationOrder": 2 }
+  ]
+}
+
+### List all polls
+GET http://localhost:8080/polls
+
+### User 2 votes on the poll (assuming poll ID is "poll1" and option ID is 1)
+POST http://localhost:8080/polls/poll1/votes
+Content-Type: application/json
+
+{
+  "username": "marius",
+  "voteOptionId": 1
+}
+
+### User 2 changes vote to option ID 2
+PUT http://localhost:8080/polls/poll1/votes
+Content-Type: application/json
+
+{
+  "username": "marius",
+  "voteOptionId": 2
+}
+
+### List votes for poll1
+GET http://localhost:8080/polls/poll1/votes
+
+### Delete the poll
+DELETE http://localhost:8080/polls/poll1
+
+### List votes (should be empty)
+GET http://localhost:8080/votes
