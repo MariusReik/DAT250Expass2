@@ -1,29 +1,19 @@
 package no.hvl.pollapp.domain;
 
-import java.time.Instant;
-
 public class Vote {
-    private Instant publishedAt;
+    private Long id;
     private String username;
-    private Long voteOptionId;
+    private Long pollId;
+    private int choiceIndex;
 
-    public Vote() {
-        this.publishedAt = Instant.now();
+    public Vote() {}
+
+    public Long getId() {
+        return id;
     }
 
-    public Vote(String username, Long voteOptionId) {
-        this();
-        this.username = username;
-        this.voteOptionId = voteOptionId;
-    }
-
-    // Getters and Setters
-    public Instant getPublishedAt() {
-        return publishedAt;
-    }
-
-    public void setPublishedAt(Instant publishedAt) {
-        this.publishedAt = publishedAt;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -34,11 +24,19 @@ public class Vote {
         this.username = username;
     }
 
-    public Long getVoteOptionId() {
-        return voteOptionId;
+    public Long getPollId() {
+        return pollId;
     }
 
-    public void setVoteOptionId(Long voteOptionId) {
-        this.voteOptionId = voteOptionId;
+    public void setPollId(Long pollId) {
+        this.pollId = pollId;
+    }
+
+    public int getChoiceIndex() {
+        return choiceIndex;
+    }
+
+    public void setChoiceIndex(int choiceIndex) {
+        this.choiceIndex = choiceIndex;
     }
 }

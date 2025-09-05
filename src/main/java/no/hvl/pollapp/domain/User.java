@@ -11,7 +11,6 @@ public class User {
         this.email = email;
     }
 
-    // Getters and Setters
     public String getUsername() {
         return username;
     }

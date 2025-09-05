@@ -1,18 +1,21 @@
 package no.hvl.pollapp.domain;
 
 public class VoteOption {
+    private Long id;
     private String caption;
     private int presentationOrder;
     private Long pollId;
 
     public VoteOption() {}
 
-    public VoteOption(String caption, int presentationOrder) {
-        this.caption = caption;
-        this.presentationOrder = presentationOrder;
+    public Long getId() {
+        return id;
     }
 
-    // Getters and Setters
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getCaption() {
         return caption;
     }

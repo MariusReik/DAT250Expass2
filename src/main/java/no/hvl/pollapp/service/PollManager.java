@@ -6,68 +6,65 @@ import java.util.*;
 
 @Component
 public class PollManager {
-    private Map<String, User> users;
-    private Map<String, Poll> polls;
-    private Map<String, List<Vote>> pollVotes;
+    private Map<String, User> users = new HashMap<>();
+    private Map<Long, Poll> polls = new HashMap<>();
+    private Map<Long, Vote> votes = new HashMap<>();
 
-    public PollManager() {
-        this.users = new HashMap<>();
-        this.polls = new HashMap<>();
-        this.pollVotes = new HashMap<>();
-    }
+    private Long nextId = 1L;
 
-    // User methods
-    public void addUser(String username, User user) {
-        users.put(username, user);
+    // User operations
+    public User addUser(User user) {
+        users.put(user.getUsername(), user);
+        return user;
     }
 
     public User getUser(String username) {
         return users.get(username);
     }
 
-    public Map<String, User> getUsers() {
-        return users;
+    public List<User> getAllUsers() {
+        return new ArrayList<>(users.values());
     }
 
-    // Poll methods
-    public void addPoll(String pollId, Poll poll) {
-        polls.put(pollId, poll);
-        pollVotes.put(pollId, new ArrayList<>());
+    public void deleteUser(String username) {
+        users.remove(username);
     }
 
-    public Poll getPoll(String pollId) {
-        return polls.get(pollId);
+    // Poll operations
+    public Poll addPoll(Poll poll) {
+        poll.setId(nextId++);
+        polls.put(poll.getId(), poll);
+        return poll;
     }
 
-    public Map<String, Poll> getPolls() {
-        return polls;
+    public Poll getPoll(Long id) {
+        return polls.get(id);
     }
 
-    public void deletePoll(String pollId) {
-        polls.remove(pollId);
-        pollVotes.remove(pollId);
+    public List<Poll> getAllPolls() {
+        return new ArrayList<>(polls.values());
     }
 
-    // Vote methods
-    public List<Vote> getVotesForPoll(String pollId) {
-        return pollVotes.get(pollId);
+    public void deletePoll(Long id) {
+        polls.remove(id);
     }
 
-    public void addVote(String pollId, Vote vote) {
-        pollVotes.get(pollId).add(vote);
+    // Vote operations
+    public Vote addVote(Vote vote) {
+        vote.setId(nextId++);
+        votes.put(vote.getId(), vote);
+        return vote;
     }
 
-    public void updateVote(String pollId, Vote vote) {
-        List<Vote> votes = pollVotes.get(pollId);
-        votes.removeIf(v -> v.getUsername().equals(vote.getUsername()));
-        votes.add(vote);
+    public Vote getVote(Long id) {
+        return votes.get(id);
     }
 
     public List<Vote> getAllVotes() {
-        List<Vote> allVotes = new ArrayList<>();
-        for (List<Vote> pollVoteList : pollVotes.values()) {
-            allVotes.addAll(pollVoteList);
-        }
-        return allVotes;
+        return new ArrayList<>(votes.values());
+    }
+
+    public void deleteVote(Long id) {
+        votes.remove(id);
     }
 }
