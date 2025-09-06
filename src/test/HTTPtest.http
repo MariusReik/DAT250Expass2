@@ -1,3 +1,5 @@
+### 1. Reset all data
+POST http://localhost:8080/reset
 
 ### 2. Create first user
 POST http://localhost:8080/users
@@ -8,10 +10,10 @@ Content-Type: application/json
   "email": "lyder@example.com"
 }
 
-### 3. List all users (should show 1)
+### 2. List all users (should show 1)
 GET http://localhost:8080/users
 
-### 4. Create second user
+### 3. Create second user
 POST http://localhost:8080/users
 Content-Type: application/json
 
@@ -20,10 +22,10 @@ Content-Type: application/json
   "email": "marius@example.com"
 }
 
-### 5. List all users again (should show 2)
+### 4. List all users again (should show 2)
 GET http://localhost:8080/users
 
-### 6. User 1 creates a new poll
+### 5. User 1 creates a new poll
 POST http://localhost:8080/polls
 Content-Type: application/json
 
@@ -43,10 +45,10 @@ Content-Type: application/json
     client.global.set("option2Id", response.body.voteOptions[1].id);
 %}
 
-### 7. List polls (should show the new poll)
+### 6. List polls (should show the new poll)
 GET http://localhost:8080/polls
 
-### 8. User 2 votes on the poll
+### 7. User 2 votes on the poll
 POST http://localhost:8080/polls/{{pollId}}/votes
 Content-Type: application/json
 
@@ -55,8 +57,8 @@ Content-Type: application/json
   "voteOptionId": {{option1Id}}
 }
 
-### 9. User 2 changes his vote
-PUT http://localhost:8080/polls/{{pollId}}/votes
+### 8. User 2 changes his vote
+POST http://localhost:8080/polls/{{pollId}}/votes
 Content-Type: application/json
 
 {
@@ -64,11 +66,11 @@ Content-Type: application/json
   "voteOptionId": {{option2Id}}
 }
 
-### 10. List votes (should show most recent vote for User 2)
+### 9. List votes (should show most recent vote for User 2)
 GET http://localhost:8080/polls/{{pollId}}/votes
 
-### 11. Delete the one poll
+### 10. Delete the one poll
 DELETE http://localhost:8080/polls/{{pollId}}
 
-### 12. List votes (should be empty)
+### 11. List votes (should be empty)
 GET http://localhost:8080/votes

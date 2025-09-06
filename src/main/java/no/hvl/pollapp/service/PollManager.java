@@ -13,7 +13,6 @@ public class PollManager {
     private final Map<Long, Vote> votes = new HashMap<>();
     private long nextId = 1L;
 
-    // Users
     public User addUser(User user) {
         users.put(user.getUsername(), user);
         return user;
@@ -28,22 +27,15 @@ public class PollManager {
     }
 
     public void deleteUser(String username) {
-        List<Long> pollIds = polls.values().stream()
-                .filter(p -> username.equals(p.getCreatorUsername()))
-                .map(Poll::getId)
-                .collect(Collectors.toList());
-        for (Long pid : pollIds) deletePoll(pid);
-        votes.values().removeIf(v -> username.equals(v.getUsername()));
         users.remove(username);
     }
 
-    // Polls
     public Poll addPoll(Poll poll) {
         poll.setId(nextId++);
         if (poll.getVoteOptions() != null) {
-            for (VoteOption o : poll.getVoteOptions()) {
-                o.setId(nextId++);
-                o.setPollId(poll.getId());
+            for (VoteOption option : poll.getVoteOptions()) {
+                option.setId(nextId++);
+                option.setPollId(poll.getId());
             }
         }
         polls.put(poll.getId(), poll);
@@ -59,28 +51,28 @@ public class PollManager {
     }
 
     public void deletePoll(Long id) {
-        votes.values().removeIf(v -> v.getPollId().equals(id));
+        votes.values().removeIf(vote -> vote.getPollId().equals(id));
         polls.remove(id);
     }
 
-    public boolean isValidOption(Long pollId, Long optionId) {
-        Poll p = polls.get(pollId);
-        if (p == null || p.getVoteOptions() == null) return false;
-        return p.getVoteOptions().stream()
-                .anyMatch(o -> Objects.equals(o.getId(), optionId));
-    }
-
-    // Votes
-    public Vote addOrUpdateVote(Vote vote, boolean createIfMissing) {
+    public Vote addOrUpdateVote(Vote vote) {
         Vote existing = findVoteByUserAndPoll(vote.getUsername(), vote.getPollId());
         if (existing != null) {
             existing.setVoteOptionId(vote.getVoteOptionId());
             return existing;
         }
-        if (!createIfMissing) return null;
         vote.setId(nextId++);
         votes.put(vote.getId(), vote);
         return vote;
+    }
+
+    public Vote findVoteByUserAndPoll(String username, Long pollId) {
+        for (Vote v : votes.values()) {
+            if (v.getPollId().equals(pollId) && v.getUsername().equals(username)) {
+                return v;
+            }
+        }
+        return null;
     }
 
     public Vote getVote(Long id) {
@@ -92,18 +84,9 @@ public class PollManager {
     }
 
     public List<Vote> getVotesForPoll(Long pollId) {
-        List<Vote> out = new ArrayList<>();
-        for (Vote v : votes.values()) if (v.getPollId().equals(pollId)) out.add(v);
-        return out;
-    }
-
-    public Vote findVoteByUserAndPoll(String username, Long pollId) {
-        for (Vote v : votes.values()) {
-            if (Objects.equals(v.getPollId(), pollId) && Objects.equals(v.getUsername(), username)) {
-                return v;
-            }
-        }
-        return null;
+        return votes.values().stream()
+                .filter(vote -> vote.getPollId().equals(pollId))
+                .collect(Collectors.toList());
     }
 
     public void deleteVote(Long id) {

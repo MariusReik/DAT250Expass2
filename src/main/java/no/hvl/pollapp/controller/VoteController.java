@@ -22,13 +22,15 @@ public class VoteController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Vote> getVote(@PathVariable Long id) {
-        Vote v = pollManager.getVote(id);
-        return v == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(v);
+        Vote vote = pollManager.getVote(id);
+        return vote == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(vote);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteVote(@PathVariable Long id) {
-        if (pollManager.getVote(id) == null) return ResponseEntity.notFound().build();
+        if (pollManager.getVote(id) == null) {
+            return ResponseEntity.notFound().build();
+        }
         pollManager.deleteVote(id);
         return ResponseEntity.noContent().build();
     }
