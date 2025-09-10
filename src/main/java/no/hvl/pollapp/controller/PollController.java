@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/polls")
+@CrossOrigin(origins = "http://localhost:8008")
 public class PollController {
 
     @Autowired

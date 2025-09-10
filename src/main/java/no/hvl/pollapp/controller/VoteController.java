@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/votes")
+@CrossOrigin(origins = "http://localhost:8008")
 public class VoteController {
 
     @Autowired
