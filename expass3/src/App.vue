@@ -1,17 +1,17 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import CreatePollComponent from "./components/CreatePollComponent.vue";
+import VoteComponent from "./components/VoteComponent.vue";
 </script>
 
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div id="app">
+    <h1>Poll Application</h1>
+
+    <div class="components">
+      <CreatePollComponent />
+      <VoteComponent />
+    </div>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
 <style scoped>

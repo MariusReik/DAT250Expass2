@@ -5,13 +5,13 @@ import no.hvl.pollapp.service.PollManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/votes")
-@CrossOrigin(origins = "http://localhost:8008")
-public class VoteController {
+@CrossOrigin(origins = "http://localhost:5173")public class VoteController {
 
     @Autowired
     private PollManager pollManager;
