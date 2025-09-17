@@ -1,0 +1,76 @@
+### 1. Reset all data
+POST http://localhost:8080/reset
+
+### 2. Create first user
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "username": "lyder",
+  "email": "lyder@example.com"
+}
+
+### 2. List all users (should show 1)
+GET http://localhost:8080/users
+
+### 3. Create second user
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "username": "marius",
+  "email": "marius@example.com"
+}
+
+### 4. List all users again (should show 2)
+GET http://localhost:8080/users
+
+### 5. User 1 creates a new poll
+POST http://localhost:8080/polls
+Content-Type: application/json
+
+{
+  "question": "Cars 1 or 2",
+  "validUntil": "2025-12-31T23:59:59Z",
+  "creatorUsername": "lyder",
+  "voteOptions": [
+    { "caption": "1 for sure", "presentationOrder": 1 },
+    { "caption": "2, not even a question", "presentationOrder": 2 }
+  ]
+}
+
+> {%
+    client.global.set("pollId", response.body.id);
+    client.global.set("option1Id", response.body.voteOptions[0].id);
+    client.global.set("option2Id", response.body.voteOptions[1].id);
+%}
+
+### 6. List polls (should show the new poll)
+GET http://localhost:8080/polls
+
+### 7. User 2 votes on the poll
+POST http://localhost:8080/polls/{{pollId}}/votes
+Content-Type: application/json
+
+{
+  "username": "marius",
+  "voteOptionId": {{option1Id}}
+}
+
+### 8. User 2 changes his vote
+POST http://localhost:8080/polls/{{pollId}}/votes
+Content-Type: application/json
+
+{
+  "username": "marius",
+  "voteOptionId": {{option2Id}}
+}
+
+### 9. List votes (should show most recent vote for User 2)
+GET http://localhost:8080/polls/{{pollId}}/votes
+
+### 10. Delete the one poll
+DELETE http://localhost:8080/polls/{{pollId}}
+
+### 11. List votes (should be empty)
+GET http://localhost:8080/votes
