@@ -3,10 +3,10 @@ package no.hvl.pollapp.controller;
 import no.hvl.pollapp.domain.Poll;
 import no.hvl.pollapp.domain.Vote;
 import no.hvl.pollapp.service.PollManager;
+import no.hvl.pollapp.service.PollEventPublisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 
@@ -18,9 +18,16 @@ public class PollController {
     @Autowired
     private PollManager pollManager;
 
+    @Autowired
+    private PollEventPublisher eventPublisher;
+
     @PostMapping
     public ResponseEntity<Poll> createPoll(@RequestBody Poll poll) {
         Poll created = pollManager.addPoll(poll);
+
+        // Send event når et nytt poll opprettes
+        eventPublisher.publishVoteEvent(created.getQuestion(), "Poll created");
+
         return ResponseEntity.ok(created);
     }
 
@@ -48,6 +55,10 @@ public class PollController {
     public ResponseEntity<Vote> voteOnPoll(@PathVariable Long pollId, @RequestBody Vote vote) {
         vote.setPollId(pollId);
         Vote result = pollManager.addOrUpdateVote(vote);
+
+        // Send event når noen stemmer
+        eventPublisher.publishVoteEvent(result.getPollId().toString(), "Vote registered");
+
         return ResponseEntity.ok(result);
     }
 
@@ -55,12 +66,4 @@ public class PollController {
     public List<Vote> getVotesForPoll(@PathVariable Long pollId) {
         return pollManager.getVotesForPoll(pollId);
     }
-
-    @Autowired
-    private PollEventPublisher eventPublisher;
-
-    eventPublisher.publishVoteEvent(poll.getName(), "Poll created");
-
-    eventPublisher.publishVoteEvent(poll.getName(), choice);
-
 }
