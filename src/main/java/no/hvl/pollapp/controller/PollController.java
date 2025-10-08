@@ -55,4 +55,12 @@ public class PollController {
     public List<Vote> getVotesForPoll(@PathVariable Long pollId) {
         return pollManager.getVotesForPoll(pollId);
     }
+
+    @Autowired
+    private PollEventPublisher eventPublisher;
+
+    eventPublisher.publishVoteEvent(poll.getName(), "Poll created");
+
+    eventPublisher.publishVoteEvent(poll.getName(), choice);
+
 }
